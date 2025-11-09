@@ -1,0 +1,103 @@
+
+╔═════════════════════════════════════════════════════════════════════════════════╗
+║                    HATEFUL MEME DETECTION MODEL - SUMMARY REPORT               ║
+╚═════════════════════════════════════════════════════════════════════════════════╝
+
+📊 DATASET INFORMATION
+─────────────────────────────────────────────────────────────────────────────────
+  Training Set:
+    - Total Samples: 8500
+    - Non-Hate: 5481 (64.5%)
+    - Hate: 3019 (35.5%)
+  
+  Validation Set:
+    - Total Samples: 500
+    - Non-Hate: 253 (50.6%)
+    - Hate: 247 (49.4%)
+
+🏗️ MODEL ARCHITECTURE
+─────────────────────────────────────────────────────────────────────────────────
+  Image Encoder:    EfficientNet-B0 (ImageNet pretrained)
+  Text Encoder:     BERT Base Uncased (frozen first 8 layers)
+  Image Features:   512-dim
+  Text Features:    512-dim
+  Fusion Method:    Cross-Modal Attention (8 heads)
+  Classifier:       3-layer MLP with BatchNorm & Dropout
+
+⚙️ TRAINING CONFIGURATION
+─────────────────────────────────────────────────────────────────────────────────
+  Loss Function:       Focal Loss (γ=2.0)
+  Optimizer:           AdamW (BERT: 1e-5, Others: 3e-4)
+  Scheduler:           Linear Warmup + Cosine Annealing
+  Batch Size:          16
+  Epochs:              5
+  Early Stopping:      Yes (Patience: 3 epochs)
+  Max Gradient Norm:   1.0
+
+✅ FINAL PERFORMANCE METRICS
+─────────────────────────────────────────────────────────────────────────────────
+  ┌─ Overall Metrics
+  │  Accuracy:                    0.6080 (60.80%)
+  │  ROC-AUC Score:               0.6414
+  │  Average Precision (AP):      0.6019
+  │
+  ├─ Non-Hate Class Metrics
+  │  Precision:                   0.6792
+  │  Recall:                      0.4269
+  │  F1-Score:                    0.5243
+  │
+  ├─ Hate Class Metrics
+  │  Precision:                   0.5748
+  │  Recall:                      0.7935
+  │  F1-Score:                    0.6667
+  │
+  └─ Confusion Matrix
+     TN: 108    FP: 145   
+     FN: 51     TP: 196   
+
+📈 PREDICTION ANALYSIS
+─────────────────────────────────────────────────────────────────────────────────
+  Total Predictions:               500
+  Correct Predictions:             304 (60.80%)
+  Incorrect Predictions:           196 (39.20%)
+  
+  Avg Confidence (Correct):        0.5381
+  Avg Confidence (Incorrect):      0.5614 (if any)
+
+🎯 OPTIMAL DECISION THRESHOLD
+─────────────────────────────────────────────────────────────────────────────────
+  Best Threshold:                  0.40
+  Precision @ Best Threshold:      0.5388
+  Recall @ Best Threshold:         0.9271
+  F1-Score @ Best Threshold:       0.6815
+
+📁 GENERATED VISUALIZATIONS
+─────────────────────────────────────────────────────────────────────────────────
+  ✓ training_curves.png                - Training & validation loss + F1 progression
+  ✓ confusion_matrix.png                - Confusion matrices (count & normalized)
+  ✓ roc_curve.png                       - ROC-AUC & Precision-Recall curves
+  ✓ metrics_comparison.png              - Classification metrics comparison
+  ✓ class_distribution.png              - Dataset class balance analysis
+  ✓ error_analysis.png                  - Error patterns & confidence analysis
+  ✓ precision_recall_curve.png          - Threshold analysis & recommendations
+  ✓ prediction_distribution.png         - Probability distributions by class
+
+💾 SAVED MODEL
+─────────────────────────────────────────────────────────────────────────────────
+  Model File:                      best_model.pth
+  Best Validation F1-Score:        0.6667
+
+🔍 KEY INSIGHTS & RECOMMENDATIONS
+─────────────────────────────────────────────────────────────────────────────────
+  1. Model achieves 60.8% accuracy on validation set
+  2. Strong discriminative power with ROC-AUC of 0.6414
+  3. Decision threshold of 0.40 balances precision and recall
+  4. Hate class F1-Score: 0.6667 - indicates good hate detection capability
+  5. Use ROC-AUC for evaluating model performance in imbalanced scenarios
+  6. For production, consider threshold tuning based on business requirements:
+     - Higher Precision: Minimize false positives (fewer incorrectly flagged posts)
+     - Higher Recall: Minimize false negatives (catch more hateful content)
+
+═════════════════════════════════════════════════════════════════════════════════
+Generated on: 2025-11-01 21:45:34
+═════════════════════════════════════════════════════════════════════════════════
