@@ -43,7 +43,6 @@ wheels/
 *.h5
 *.model
 *.joblib
-data/
 *.zip
 *.tar.gz
 
